@@ -8,7 +8,6 @@ import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
-
 const AlertPage = React.lazy(() => import('pages/AlertPage'));
 const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
 const BadgePage = React.lazy(() => import('pages/BadgePage'));
@@ -26,6 +25,7 @@ const TablePage = React.lazy(() => import('pages/TablePage'));
 const TypographyPage = React.lazy(() => import('pages/TypographyPage'));
 const WidgetPage = React.lazy(() => import('pages/WidgetPage'));
 const PublicRequests = React.lazy(() => import('pages/PublicRequests'));
+const CreatePublicJop = React.lazy(() => import('pages/CreatePublicJop'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -69,7 +69,16 @@ class App extends React.Component {
                   path="/button-groups"
                   component={ButtonGroupPage}
                 />
-                <Route exact path="/PublicRequests" component={PublicRequests} />
+                <Route
+                  exact
+                  path="/PublicRequests"
+                  component={PublicRequests}
+                />
+                <Route
+                  exact
+                  path="/CreatePublicJop"
+                  component={CreatePublicJop}
+                />
                 <Route exact path="/dropdowns" component={DropdownPage} />
                 <Route exact path="/progress" component={ProgressPage} />
                 <Route exact path="/modals" component={ModalPage} />
