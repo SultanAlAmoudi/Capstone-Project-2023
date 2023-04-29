@@ -30,3 +30,11 @@ export const RequestData = [
     jop: 'Engine Check',
   },
 ];
+
+export const Jop = {
+  Title: 'My car stopped working',
+  Description: 'My desctiptions',
+  carName: 'Sunny 2011',
+  carMaker: 'Nissan',
+  creationDate: '2011',
+};

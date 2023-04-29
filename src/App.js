@@ -7,6 +7,14 @@ import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
+import jwtDecode from 'jwt-decode';
+// Redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { SET_AUTHENTICATED } from './redux/types';
+import { logoutUser, getUserData } from './redux/actions/userActions';
+
+import axios from 'axios';
 
 const AlertPage = React.lazy(() => import('pages/AlertPage'));
 const AuthModalPage = React.lazy(() => import('pages/AuthModalPage'));
@@ -31,66 +39,85 @@ const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
 };
 
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser());
+    window.location.href = '/login';
+  } else {
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common['Authorization'] = token;
+    store.dispatch(getUserData());
+  }
+}
+
 class App extends React.Component {
   render() {
     return (
-      <BrowserRouter basename={getBasename()}>
-        <GAListener>
-          <Switch>
-            <LayoutRoute
-              exact
-              path="/login"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_LOGIN} />
-              )}
-            />
-            <LayoutRoute
-              exact
-              path="/signup"
-              layout={EmptyLayout}
-              component={props => (
-                <AuthPage {...props} authState={STATE_SIGNUP} />
-              )}
-            />
-            <MainLayout breakpoint={this.props.breakpoint}>
-              <React.Suspense fallback={<PageSpinner />}>
-                <Route exact path="/" component={DashboardPage} />
-                <Route exact path="/login-modal" component={AuthModalPage} />
-                <Route exact path="/buttons" component={ButtonPage} />
-                <Route exact path="/cards" component={CardPage} />
-                <Route exact path="/widgets" component={WidgetPage} />
-                <Route exact path="/typography" component={TypographyPage} />
-                <Route exact path="/alerts" component={AlertPage} />
-                <Route exact path="/tables" component={TablePage} />
-                <Route exact path="/badges" component={BadgePage} />
-                <Route
-                  exact
-                  path="/button-groups"
-                  component={ButtonGroupPage}
-                />
-                <Route
-                  exact
-                  path="/PublicRequests"
-                  component={PublicRequests}
-                />
-                <Route
-                  exact
-                  path="/CreatePublicJop"
-                  component={CreatePublicJop}
-                />
-                <Route exact path="/dropdowns" component={DropdownPage} />
-                <Route exact path="/progress" component={ProgressPage} />
-                <Route exact path="/modals" component={ModalPage} />
-                <Route exact path="/forms" component={FormPage} />
-                <Route exact path="/input-groups" component={InputGroupPage} />
-                <Route exact path="/charts" component={ChartPage} />
-              </React.Suspense>
-            </MainLayout>
-            <Redirect to="/" />
-          </Switch>
-        </GAListener>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter basename={getBasename()}>
+          <GAListener>
+            <Switch>
+              <LayoutRoute
+                exact
+                path="/login"
+                layout={EmptyLayout}
+                component={props => (
+                  <AuthPage {...props} authState={STATE_LOGIN} />
+                )}
+              />
+              <LayoutRoute
+                exact
+                path="/signup"
+                layout={EmptyLayout}
+                component={props => (
+                  <AuthPage {...props} authState={STATE_SIGNUP} />
+                )}
+              />
+              <MainLayout breakpoint={this.props.breakpoint}>
+                <React.Suspense fallback={<PageSpinner />}>
+                  <Route exact path="/" component={DashboardPage} />
+                  <Route exact path="/login-modal" component={AuthModalPage} />
+                  <Route exact path="/buttons" component={ButtonPage} />
+                  <Route exact path="/cards" component={CardPage} />
+                  <Route exact path="/widgets" component={WidgetPage} />
+                  <Route exact path="/typography" component={TypographyPage} />
+                  <Route exact path="/alerts" component={AlertPage} />
+                  <Route exact path="/tables" component={TablePage} />
+                  <Route exact path="/badges" component={BadgePage} />
+                  <Route
+                    exact
+                    path="/button-groups"
+                    component={ButtonGroupPage}
+                  />
+                  <Route
+                    exact
+                    path="/PublicRequests"
+                    component={PublicRequests}
+                  />
+                  <Route
+                    exact
+                    path="/CreatePublicJop"
+                    component={CreatePublicJop}
+                  />
+                  <Route exact path="/dropdowns" component={DropdownPage} />
+                  <Route exact path="/progress" component={ProgressPage} />
+                  <Route exact path="/modals" component={ModalPage} />
+                  <Route exact path="/forms" component={FormPage} />
+                  <Route
+                    exact
+                    path="/input-groups"
+                    component={InputGroupPage}
+                  />
+                  <Route exact path="/charts" component={ChartPage} />
+                </React.Suspense>
+              </MainLayout>
+              <Redirect to="/" />
+            </Switch>
+          </GAListener>
+        </BrowserRouter>
+      </Provider>
     );
   }
 }

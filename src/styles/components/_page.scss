@@ -45,3 +45,13 @@
   justify-content: center;
   align-items: center;
 }
+
+.authform-page-button {
+  position: relative;
+
+  &___spinner {
+    position: absolute;
+    left: 250px;
+    bottom: 85px;
+  }
+}
