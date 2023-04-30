@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'utils/propTypes';
+/* import PropTypes from 'utils/propTypes'; */
 import {
   Table,
   Button,
@@ -13,7 +13,7 @@ import {
   Label,
   Card,
   CardBody,
-  CardTitle,
+  /*   CardTitle, */
   CardHeader,
   Media,
 } from 'reactstrap';

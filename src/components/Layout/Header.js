@@ -1,20 +1,17 @@
 import Avatar from 'components/Avatar';
 import { UserCard } from 'components/Card';
-import Notifications from 'components/Notifications';
+/* import Notifications from 'components/Notifications'; */
 import SearchInput from 'components/SearchInput';
-import { notificationsData } from 'demos/header';
-import withBadge from 'hocs/withBadge';
+/* import { notificationsData } from 'demos/header'; */
+import PropTypes from 'prop-types';
+/* import withBadge from 'hocs/withBadge'; */
 import React from 'react';
 import {
   MdClearAll,
   MdExitToApp,
   MdHelp,
-  MdInsertChart,
-  MdMessage,
-  MdNotificationsActive,
-  MdNotificationsNone,
   MdPersonPin,
-  MdSettingsApplications,
+  MdBeenhere,
 } from 'react-icons/md';
 import {
   Button,
@@ -27,12 +24,16 @@ import {
   NavLink,
   Popover,
   PopoverBody,
+  Spinner,
 } from 'reactstrap';
 import bn from 'utils/bemnames';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { logoutUser } from '../../redux/actions/userActions';
 
 const bem = bn.create('header');
 
-const MdNotificationsActiveWithBadge = withBadge({
+/* const MdNotificationsActiveWithBadge = withBadge({
   size: 'md',
   color: 'primary',
   style: {
@@ -43,7 +44,7 @@ const MdNotificationsActiveWithBadge = withBadge({
     alignItems: 'center',
   },
   children: <small>5</small>,
-})(MdNotificationsActive);
+})(MdNotificationsActive); */
 
 class Header extends React.Component {
   state = {
@@ -62,6 +63,19 @@ class Header extends React.Component {
     }
   };
 
+  goLogin = () => {
+    this.props.history.push('./login');
+  };
+
+  goSignup = () => {
+    this.props.history.push('./signup');
+  };
+
+  handleLogout = () => {
+    this.props.logoutUser();
+    this.props.history.push('./login');
+  };
+
   toggleUserCardPopover = () => {
     this.setState({
       isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
@@ -76,7 +90,14 @@ class Header extends React.Component {
   };
 
   render() {
-    const { isNotificationConfirmed } = this.state;
+    const {
+      user: {
+        credentials: { handle, email, imageUrl },
+        authenticated,
+        loading,
+      },
+    } = this.props;
+    /*    const { isNotificationConfirmed } = this.state; */
 
     return (
       <Navbar light expand className={bem.b('bg-white')}>
@@ -90,7 +111,7 @@ class Header extends React.Component {
         </Nav>
 
         <Nav navbar className={bem.e('nav-right')}>
-          <NavItem className="d-inline-flex">
+          {/* <NavItem className="d-inline-flex">
             <NavLink id="Popover1" className="position-relative">
               {isNotificationConfirmed ? (
                 <MdNotificationsNone
@@ -116,9 +137,98 @@ class Header extends React.Component {
                 <Notifications notificationsData={notificationsData} />
               </PopoverBody>
             </Popover>
-          </NavItem>
+          </NavItem> */}
 
-          <NavItem>
+          {!loading ? (
+            authenticated ? (
+              <NavItem>
+                <NavLink id="Popover2">
+                  <Avatar
+                    onClick={this.toggleUserCardPopover}
+                    className="can-click"
+                    src={imageUrl}
+                  />
+                </NavLink>
+                <Popover
+                  placement="bottom-end"
+                  isOpen={this.state.isOpenUserCardPopover}
+                  toggle={this.toggleUserCardPopover}
+                  target="Popover2"
+                  className="p-0 border-0"
+                  style={{ minWidth: 250 }}
+                >
+                  <PopoverBody className="p-0 border-light">
+                    <UserCard
+                      title={handle}
+                      subtitle={email}
+                      text={'Welcome back ' + handle}
+                      className="border-light"
+                      avatar={imageUrl}
+                    >
+                      <ListGroup flush>
+                        <ListGroupItem
+                          tag="button"
+                          action
+                          className="border-light"
+                        >
+                          <MdPersonPin /> Profile
+                        </ListGroupItem>
+                        <ListGroupItem
+                          tag="button"
+                          action
+                          className="border-light"
+                        >
+                          <MdBeenhere /> View my job listings
+                        </ListGroupItem>
+                        <ListGroupItem
+                          tag="button"
+                          action
+                          className="border-light"
+                        >
+                          <MdHelp /> Help
+                        </ListGroupItem>
+                        <ListGroupItem
+                          tag="button"
+                          action
+                          className="border-light"
+                          onClick={this.handleLogout}
+                        >
+                          <MdExitToApp /> Signout
+                        </ListGroupItem>
+                      </ListGroup>
+                    </UserCard>
+                  </PopoverBody>
+                </Popover>
+              </NavItem>
+            ) : (
+              <NavItem>
+                <Button
+                  color="secondary"
+                  onClick={this.goLogin}
+                  className="cr-header-button"
+                >
+                  Log In
+                </Button>
+
+                <Button
+                  size="lg"
+                  onClick={this.goSignup}
+                  className="bg-gradient-theme-left "
+                >
+                  Sign Up
+                </Button>
+              </NavItem>
+            )
+          ) : (
+            <NavItem>
+              <Spinner
+                size="lg"
+                className="cr-header-spinner"
+                color="primary"
+              />
+            </NavItem>
+          )}
+          {/* <NavItem>
             <NavLink id="Popover2">
               <Avatar
                 onClick={this.toggleUserCardPopover}
@@ -137,7 +247,7 @@ class Header extends React.Component {
                 <UserCard
                   title="Jane"
                   subtitle="jane@jane.com"
-                  text="Last updated 3 mins ago"
+                  text="Welcome back jane"
                   className="border-light"
                 >
                   <ListGroup flush>
@@ -145,13 +255,7 @@ class Header extends React.Component {
                       <MdPersonPin /> Profile
                     </ListGroupItem>
                     <ListGroupItem tag="button" action className="border-light">
-                      <MdInsertChart /> Stats
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdMessage /> Messages
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdSettingsApplications /> Settings
+                      <MdBeenhere /> View my job listings
                     </ListGroupItem>
                     <ListGroupItem tag="button" action className="border-light">
                       <MdHelp /> Help
@@ -163,11 +267,25 @@ class Header extends React.Component {
                 </UserCard>
               </PopoverBody>
             </Popover>
-          </NavItem>
+          </NavItem> */}
         </Nav>
       </Navbar>
     );
   }
 }
 
-export default Header;
+Header.propTypes = {
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  logoutUser,
+};
+
+export default withRouter(connect(mapStateToProps, mapActionsToProps)(Header));
