@@ -30,6 +30,7 @@ import bn from 'utils/bemnames';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { logoutUser } from '../../redux/actions/userActions';
+import dayjs from 'dayjs';
 
 const bem = bn.create('header');
 
@@ -92,7 +93,7 @@ class Header extends React.Component {
   render() {
     const {
       user: {
-        credentials: { handle, email, imageUrl },
+        credentials: { handle, email, imageUrl, createdAt },
         authenticated,
         loading,
       },
@@ -161,9 +162,12 @@ class Header extends React.Component {
                     <UserCard
                       title={handle}
                       subtitle={email}
-                      text={'Welcome back ' + handle}
+                      date={dayjs(createdAt).format('YYYY/MM/DD')}
                       className="border-light"
                       avatar={imageUrl}
+                      avatarSize={100}
+                      backGround={true}
+                      inverse
                     >
                       <ListGroup flush>
                         <ListGroupItem

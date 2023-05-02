@@ -207,16 +207,14 @@ class AuthForm extends React.Component {
             disabled={loading}
           >
             {loading && <Spinner color="primary" />}
-            {this.renderButtonText()}
+            {!loading && this.renderButtonText()}
           </Button>
         )}
         <div className="text-center pt-1">
           <h6>or</h6>
           <h6>
             {this.isSignup ? (
-              <a href="#login" onClick={this.changeAuthState(STATE_LOGIN)}>
-                Login
-              </a>
+              <a href="#login" onClick={this.changeAuthState(STATE_LOGIN)}></a>
             ) : (
               <a href="#signup" onClick={this.changeAuthState(STATE_SIGNUP)}>
                 Signup
