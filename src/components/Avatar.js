@@ -3,8 +3,6 @@ import PropTypes from 'utils/propTypes';
 
 import classNames from 'classnames';
 
-import userImage from 'assets/img/users/100_4.jpg';
-
 const Avatar = ({
   rounded,
   circle,
@@ -40,7 +38,7 @@ Avatar.defaultProps = {
   rounded: false,
   circle: true,
   size: 40,
-  src: userImage,
+  src: 'https://firebasestorage.googleapis.com/v0/b/capstone-project-app-10682.appspot.com/o/no-img.png?alt=media',
   style: {},
 };
 

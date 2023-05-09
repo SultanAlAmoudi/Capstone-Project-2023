@@ -3,10 +3,18 @@ import PropTypes from 'utils/propTypes';
 
 import classNames from 'classnames';
 
-import { Card, CardTitle, CardSubtitle, CardText, CardBody } from 'reactstrap';
-
+import {
+  Card,
+  CardTitle,
+  CardSubtitle,
+  CardText,
+  CardBody,
+  Button,
+} from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
-
+import { connect } from 'react-redux';
+import { uploadImage } from '../../redux/actions/userActions';
 import Avatar from '../Avatar';
 
 const UserCard = ({
@@ -18,7 +26,11 @@ const UserCard = ({
   ratingValue,
   backGround,
   children,
+  withButton,
   className,
+  uploadImage,
+  history,
+  staticContext,
   ...restProps
 }) => {
   let classes = '';
@@ -30,12 +42,61 @@ const UserCard = ({
     }
   };
 
+  const handleImageChange = event => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image, image.name);
+    console.log(formData.get('image'));
+    uploadImage(formData);
+  };
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById('imageInput');
+    fileInput.click();
+  };
+  const handleNav = () => {
+    history.push(`/Profile/${title}`);
+  };
+
   classes = isbackGround(backGround);
-  console.log(classes);
   return (
     <Card className={classes} {...restProps}>
       <CardBody className="d-flex justify-content-center align-items-center flex-column">
-        <Avatar src={avatar} size={avatarSize} className="mb-2" />
+        {withButton ? (
+          <>
+            <input
+              type="file"
+              id="imageInput"
+              hidden="hidden"
+              onChange={handleImageChange}
+            />
+            <Button
+              title="Change profile Pic"
+              color="link"
+              className="mb-2"
+              onClick={handleEditPicture}
+            >
+              <Avatar
+                src={avatar}
+                size={avatarSize}
+                className="mb-2 userPageImg"
+              />
+            </Button>
+          </>
+        ) : (
+          <Button
+            title="Change profile Pic"
+            color="link"
+            className="mb-2"
+            onClick={handleNav}
+          >
+            <Avatar
+              src={avatar}
+              size={avatarSize}
+              className="mb-2 userPageImg"
+            />
+          </Button>
+        )}
         <CardTitle tag="h5">{title}</CardTitle>
         <CardSubtitle>{subtitle}</CardSubtitle>
         <CardText>
@@ -72,4 +133,14 @@ UserCard.defaultProps = {
   avatarSize: 80,
 };
 
-export default UserCard;
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+const mapActionsToProps = {
+  uploadImage,
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapActionsToProps)(UserCard),
+);

@@ -82,9 +82,19 @@ const pageContents = [
 
 const navItems = [
   { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
-  { to: '/cards', name: 'cards', exact: false, Icon: MdWeb },
-  { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
-  { to: '/PublicRequests', name: 'Listings', exact: false, Icon: MdWidgets },
+  {
+    to: '/MyJopListings',
+    name: 'View Jobs',
+    exact: false,
+    Icon: MdInsertChart,
+  },
+  { to: '/offers', name: 'View Offers', exact: false, Icon: MdInsertChart },
+  {
+    to: '/PublicRequests',
+    name: 'Job Listings',
+    exact: false,
+    Icon: MdWidgets,
+  },
 ];
 
 const bem = bn.create('sidebar');
@@ -141,7 +151,7 @@ class Sidebar extends React.Component {
                 </BSNavLink>
               </NavItem>
             ))}
-
+            {/* 
             <NavItem
               className={bem.e('nav-item')}
               onClick={this.handleClick('Components')}
@@ -203,8 +213,8 @@ class Sidebar extends React.Component {
                   }}
                 />
               </BSNavLink>
-            </NavItem>
-            <Collapse isOpen={this.state.isOpenContents}>
+            </NavItem> */}
+            {/* <Collapse isOpen={this.state.isOpenContents}>
               {navContents.map(({ to, name, exact, Icon }, index) => (
                 <NavItem key={index} className={bem.e('nav-item')}>
                   <BSNavLink
@@ -220,9 +230,9 @@ class Sidebar extends React.Component {
                   </BSNavLink>
                 </NavItem>
               ))}
-            </Collapse>
+            </Collapse> */}
 
-            <NavItem
+            {/* <NavItem
               className={bem.e('nav-item')}
               onClick={this.handleClick('Pages')}
             >
@@ -260,7 +270,7 @@ class Sidebar extends React.Component {
                   </BSNavLink>
                 </NavItem>
               ))}
-            </Collapse>
+            </Collapse> */}
           </Nav>
         </div>
       </aside>

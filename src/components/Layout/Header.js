@@ -65,16 +65,32 @@ class Header extends React.Component {
   };
 
   goLogin = () => {
-    this.props.history.push('./login');
+    this.setState({
+      isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
+    });
+    this.props.history.push('/login');
   };
 
   goSignup = () => {
-    this.props.history.push('./signup');
+    this.setState({
+      isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
+    });
+    this.props.history.push('/signup');
   };
 
   handleLogout = () => {
+    this.setState({
+      isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
+    });
     this.props.logoutUser();
-    this.props.history.push('./login');
+    this.props.history.push('/login');
+  };
+
+  handleProfile = () => {
+    this.setState({
+      isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
+    });
+    this.props.history.push('/MyPage');
   };
 
   toggleUserCardPopover = () => {
@@ -174,6 +190,7 @@ class Header extends React.Component {
                           tag="button"
                           action
                           className="border-light"
+                          onClick={this.handleProfile}
                         >
                           <MdPersonPin /> Profile
                         </ListGroupItem>
