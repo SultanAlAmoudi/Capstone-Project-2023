@@ -39,6 +39,8 @@ const MyPage = React.lazy(() => import('pages/MyPage'));
 const landing = React.lazy(() => import('pages/Landing'));
 const User = React.lazy(() => import('pages/User'));
 const MyJopListings = React.lazy(() => import('pages/MyJopListings'));
+const Hero = React.lazy(() => import('pages/Hero'));
+const MyOffers = React.lazy(() => import('pages/MyOffers'));
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -81,11 +83,16 @@ class App extends React.Component {
             />
             <MainLayout breakpoint={this.props.breakpoint}>
               <React.Suspense fallback={<PageSpinner />}>
-                <Route exact path="/" component={DashboardPage} />
+                <Route exact path="/" component={Hero} />
                 <Route exact path="/landing" component={landing} />
                 <Route exact path="/Profile/:handle" component={User} />
-                <Route exact path="/MyJopListings" component={MyJopListings} />
-                <Route exact path="/MyPage" component={MyPage} />
+                <AuthRoute
+                  exact
+                  path="/MyJopListings"
+                  component={MyJopListings}
+                />
+                <AuthRoute exact path="/MyPage" component={MyPage} />
+                <AuthRoute exact path="/MyOffers" component={MyOffers} />
                 <Route exact path="/login-modal" component={AuthModalPage} />
                 <Route exact path="/buttons" component={ButtonPage} />
                 <Route exact path="/cards" component={CardPage} />
@@ -99,7 +106,7 @@ class App extends React.Component {
                   path="/button-groups"
                   component={ButtonGroupPage}
                 />
-                <Route
+                <AuthRoute
                   exact
                   path="/PublicRequests"
                   component={PublicRequests}

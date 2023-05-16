@@ -3,6 +3,7 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   STOP_LOADING_UI,
+  SET_UNAUTHENTICATED,
 } from '../types';
 
 const initialState = {
@@ -34,6 +35,8 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
       };
+    case SET_UNAUTHENTICATED:
+      return initialState;
     default:
       return state;
   }

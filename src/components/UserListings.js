@@ -16,14 +16,16 @@ import {
   CardText,
   /*   CardTitle, */
   CardHeader,
-  Media,
+  Spinner,
 } from 'reactstrap';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import Avatar from 'components/Avatar';
+import OffersUiAccept from '../utils/OffersUiAccept';
 
 import withBadge from 'hocs/withBadge';
+import Typography from './Typography';
 
 const AvatarWithBadge = withBadge({
   position: 'bottom-right',
@@ -49,7 +51,7 @@ class UserListings extends React.Component {
   };
 
   render() {
-    const { headers, RequestData, ...restProps } = this.props;
+    const { headers, RequestData, loggedInHanndle, ...restProps } = this.props;
     dayjs.extend(relativeTime);
     return (
       <Table responsive hover {...restProps}>
@@ -62,15 +64,39 @@ class UserListings extends React.Component {
         </thead>
         <tbody>
           {RequestData.map(
-            ({ requestId, car, type, make, createdAt, ...rest }, index) => (
+            (
+              {
+                offerCount,
+                car,
+                type,
+                make,
+                createdAt,
+                offerAccepted,
+                ...rest
+              },
+              index,
+            ) => (
               <tr key={index}>
-                <td className="align-middle text-center">{requestId}</td>
                 <td className="align-middle text-center">{car}</td>
                 <td className="align-middle text-center">{make}</td>
                 <td className="align-middle text-center">{type}</td>
+                <td className="align-middle text-center">{offerCount}</td>
                 <td className="align-middle text-center">
                   {dayjs(createdAt).fromNow(true)}
                 </td>
+                <td className="align-middle text-center">
+                  {offerAccepted && (
+                    <Typography className="text-money">
+                      Offer Accepted
+                    </Typography>
+                  )}
+                  {!offerAccepted && (
+                    <Typography className="text-secondary">
+                      Request Listed
+                    </Typography>
+                  )}
+                </td>
+
                 <td className="align-middle text-center">
                   <Button
                     color="primary"
@@ -185,29 +211,11 @@ class UserListings extends React.Component {
                     <Card>
                       <CardHeader>Offers</CardHeader>
                       <CardBody>
-                        {/*                         <Media className="m-2">
-                          <Media left className="mr-2">
-                            <AvatarWithBadge
-                              src={this.state.modalData.avatar}
-                            />
-                          </Media>
-                          <Media body>
-                            <Media heading tag="h6" className="m-0">
-                              The best mechannic
-                            </Media>
-                            <p className="text-muted m-0">
-                              <small>3 hour ago</small>
-                            </p>
-                          </Media>
-                          <Media right className="align-self-center">
-                            38.00$
-                          </Media>
-                        </Media>
-                        <Media>
-                          <p className="text-dark">
-                            Describing my offer top you
-                          </p>
-                        </Media> */}
+                        {console.log(this.state.modalData)}
+                        <OffersUiAccept
+                          hasAccepted={this.state.modalData.offerAccepted}
+                          requestId={this.state.modalData.requestId}
+                        />
                       </CardBody>
                     </Card>
                   </Col>

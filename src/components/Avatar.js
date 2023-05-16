@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'utils/propTypes';
+import { withRouter } from 'react-router-dom';
 
 import classNames from 'classnames';
+import { Button } from 'reactstrap';
 
 const Avatar = ({
   rounded,
@@ -11,16 +13,40 @@ const Avatar = ({
   tag: Tag,
   className,
   style,
+  history,
+  userHandle,
+  staticContext,
   ...restProps
 }) => {
+  const handleNav = () => {
+    history.push(`/Profile/${userHandle}`);
+  };
   const classes = classNames({ 'rounded-circle': circle, rounded }, className);
   return (
-    <Tag
-      src={src}
-      style={{ width: size, height: size, ...style }}
-      className={classes}
-      {...restProps}
-    />
+    <>
+      {userHandle ? (
+        <Button
+          title={'Go to ' + userHandle + ' Profile page'}
+          color="link"
+          className="mb-2"
+          onClick={handleNav}
+        >
+          <Tag
+            src={src}
+            style={{ width: size, height: size, ...style }}
+            className={classes}
+            {...restProps}
+          />
+        </Button>
+      ) : (
+        <Tag
+          src={src}
+          style={{ width: size, height: size, ...style }}
+          className={classes}
+          {...restProps}
+        />
+      )}
+    </>
   );
 };
 
@@ -42,4 +68,4 @@ Avatar.defaultProps = {
   style: {},
 };
 
-export default Avatar;
+export default withRouter(Avatar);

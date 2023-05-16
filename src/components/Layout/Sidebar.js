@@ -1,5 +1,5 @@
 import logo200Image from 'assets/img/logo/logo_200.png';
-import sidebarBgImage from 'assets/img/sidebar/sidebar-12.jpg';
+import sidebarBgImage from 'assets/img/sidebar/sidebar-7.jpg';
 import SourceLink from 'components/SourceLink';
 import React from 'react';
 import { FaGithub } from 'react-icons/fa';
@@ -9,11 +9,11 @@ import {
   MdBorderAll,
   MdBrush,
   MdChromeReaderMode,
-  MdDashboard,
-  MdExtension,
+  MdHome,
+  MdWork,
   MdGroupWork,
   MdInsertChart,
-  MdKeyboardArrowDown,
+  MdLocalOffer,
   MdNotificationsActive,
   MdPages,
   MdRadioButtonChecked,
@@ -81,14 +81,14 @@ const pageContents = [
 ];
 
 const navItems = [
-  { to: '/', name: 'dashboard', exact: true, Icon: MdDashboard },
+  { to: '/', name: 'Home', exact: true, Icon: MdHome },
   {
     to: '/MyJopListings',
     name: 'View Jobs',
     exact: false,
-    Icon: MdInsertChart,
+    Icon: MdWork,
   },
-  { to: '/offers', name: 'View Offers', exact: false, Icon: MdInsertChart },
+  { to: '/MyOffers', name: 'View Offers', exact: false, Icon: MdLocalOffer },
   {
     to: '/PublicRequests',
     name: 'Job Listings',
@@ -130,9 +130,7 @@ class Sidebar extends React.Component {
                 className="pr-2"
                 alt=""
               />
-              <span className="text-white">
-                Reduction <FaGithub />
-              </span>
+              <span className="text-white">Car Lancer</span>
             </SourceLink>
           </Navbar>
           <Nav vertical>

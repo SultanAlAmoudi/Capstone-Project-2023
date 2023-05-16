@@ -1,8 +1,18 @@
 import AuthForm, { STATE_LOGIN } from 'components/AuthForm';
 import React from 'react';
 import { Card, Col, Row } from 'reactstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 class AuthPage extends React.Component {
+  componentDidMount() {
+    if (this.props.authenticated == true) {
+      alert('You are already logged in');
+      this.props.history.push('/');
+    }
+  }
+
   handleAuthState = authState => {
     if (authState === STATE_LOGIN) {
       this.props.history.push('/login');
@@ -16,6 +26,7 @@ class AuthPage extends React.Component {
   };
 
   render() {
+    const { authenticated, ...restProps } = this.props;
     return (
       <Row
         style={{
@@ -38,4 +49,12 @@ class AuthPage extends React.Component {
   }
 }
 
-export default AuthPage;
+const mapStateToProps = state => ({
+  authenticated: state.user.authenticated,
+});
+
+AuthPage.propTypes = {
+  user: PropTypes.object,
+};
+
+export default withRouter(connect(mapStateToProps)(AuthPage));

@@ -11,7 +11,12 @@ import {
 const initialState = {
   authenticated: false,
   loading: false,
-  credentials: {},
+  credentials: {
+    handle: '',
+    createdAt: '',
+    email: '',
+    imageUrl: '',
+  },
   likes: [],
   notifications: [],
 };

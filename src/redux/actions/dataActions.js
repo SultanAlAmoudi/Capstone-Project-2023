@@ -12,23 +12,46 @@ import {
   STOP_LOADING_UI,
   SUBMIT_COMMENT,
   POST_REQUEST,
+  SET_PUBLICREQUESTS,
+  SET_REQUESTS,
+  MAKE_OFFER,
+  SET_OFFERS,
+  SET_USEROFFERS,
 } from '../types';
 import axios from 'axios';
 
 // Get all screams
-export const getScreams = () => dispatch => {
+export const getRequests = () => dispatch => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get('/screams')
+    .get('/requests')
     .then(res => {
       dispatch({
-        type: SET_SCREAMS,
+        type: SET_PUBLICREQUESTS,
         payload: res.data,
       });
     })
     .catch(err => {
       dispatch({
-        type: SET_SCREAMS,
+        type: SET_PUBLICREQUESTS,
+        payload: [],
+      });
+    });
+};
+export const getOffers = requestId => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/offers/${requestId}`)
+    .then(res => {
+      console.log(res.data);
+      dispatch({
+        type: SET_OFFERS,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_OFFERS,
         payload: [],
       });
     });
@@ -66,7 +89,7 @@ export const postScream = newScream => dispatch => {
     });
 };
 //Create Request
-export const postRequest = newRequest => dispatch => {
+export const postRequest = (newRequest, history) => dispatch => {
   dispatch({ type: LOADING_UI });
   axios
     .post('/Request', newRequest)
@@ -76,6 +99,10 @@ export const postRequest = newRequest => dispatch => {
         payload: res.data,
       });
       dispatch(clearErrors());
+      history.push({
+        pathname: '/MyJopListings',
+        state: { requestModal: false },
+      });
     })
     .catch(err => {
       dispatch({
@@ -95,6 +122,31 @@ export const likeScream = screamId => dispatch => {
       });
     })
     .catch(err => console.log(err));
+};
+
+export const makeOffer = (newOffer, requestId, history) => dispatch => {
+  dispatch({ type: LOADING_UI });
+
+  axios
+    .post(`/request/${requestId}/offer`, newOffer)
+    .then(res => {
+      dispatch({
+        type: MAKE_OFFER,
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+      history.push({
+        pathname: '/PublicRequests',
+        state: { offerModal: false },
+      });
+    })
+    .catch(err => {
+      dispatch(clearErrors());
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };
 // Unlike a scream
 export const unlikeScream = screamId => dispatch => {
@@ -126,6 +178,28 @@ export const submitComment = (screamId, commentData) => dispatch => {
       });
     });
 };
+
+export const acceptOffer = (requestId, offerId) => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post(`/requests/${requestId}/${offerId}/accept`)
+    .then(res => {
+      dispatch({
+        type: SET_OFFERS,
+        payload: [res.data],
+      });
+      dispatch(clearErrors());
+      dispatch({ type: STOP_LOADING_UI });
+    })
+    .catch(err => {
+      dispatch(clearErrors());
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+      dispatch({ type: STOP_LOADING_UI });
+    });
+};
 export const deleteScream = screamId => dispatch => {
   axios
     .delete(`/scream/${screamId}`)
@@ -141,18 +215,35 @@ export const getUserData = userHandle => dispatch => {
     .get(`/user/${userHandle}`)
     .then(res => {
       dispatch({
-        type: SET_SCREAMS,
-        payload: res.data.screams,
+        type: SET_REQUESTS,
+        payload: res.data.requests,
       });
     })
     .catch(() => {
       dispatch({
-        type: SET_SCREAMS,
+        type: SET_REQUESTS,
         payload: null,
       });
     });
 };
 
+export const getUserOffers = () => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/user/offers`)
+    .then(res => {
+      dispatch({
+        type: SET_USEROFFERS,
+        payload: res.data.offers,
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: SET_USEROFFERS,
+        payload: null,
+      });
+    });
+};
 export const clearErrors = () => dispatch => {
   dispatch({ type: CLEAR_ERRORS });
 };

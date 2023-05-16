@@ -1,0 +1,267 @@
+import React from 'react';
+import Page from '../components/Page';
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Row,
+  Col,
+  Container,
+  Label,
+  Card,
+  CardBody,
+  CardText,
+  Form,
+  Input,
+  FormGroup,
+  FormFeedback,
+} from 'reactstrap';
+import UserListings from '../components/UserListings';
+import { MdPersonPin } from 'react-icons/md';
+import { RequestData } from '../demos/Mock';
+import { connect } from 'react-redux';
+import { postRequest } from '../redux/actions/dataActions';
+import { event } from 'react-ga';
+
+class MyJopListings extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      modalOpen: false,
+      carName: '',
+      maker: '',
+      description: '',
+      type: '',
+      errors: {},
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
+  }
+
+  toggle = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+    });
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const newRequest = {
+      car: this.state.carName,
+      make: this.state.maker,
+      description: this.state.description,
+      type: this.state.type,
+    };
+    this.props.postRequest(newRequest);
+  };
+
+  render() {
+    const {
+      user: {
+        credentials: { handle, email },
+        requests,
+      },
+      loading,
+    } = this.props;
+    const { errors } = this.state;
+    console.log(errors);
+    return (
+      <Page title="" breadcrumbs={[{ name: 'My Job listings', active: true }]}>
+        <Container fluid>
+          <Card>
+            <CardBody>
+              <Row>
+                <Col>
+                  <Row>
+                    <Col>
+                      <Label tag="h2">
+                        {' '}
+                        {this.props.user.credentials.handle}'s Job Requests{' '}
+                      </Label>
+                      <p>
+                        Here is a list of all the job requests made by you,
+                        <br /> you can view offers and more details by clicking
+                        on <Button color="primary">Show Details</Button> found
+                        on each request below.
+                      </p>
+                    </Col>
+                  </Row>
+                  <br />
+                  <Row>
+                    <Col>
+                      <UserListings
+                        headers={['ID', 'Car', 'Make', 'Jop', 'Created At', '']}
+                        RequestData={this.props.user.requests}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Form>
+                        <Modal
+                          size="xl"
+                          isOpen={this.state.modalOpen}
+                          toggle={() => this.toggle()}
+                        >
+                          <ModalHeader toggle={() => this.toggle()}>
+                            New Request Form
+                          </ModalHeader>
+                          <ModalBody>
+                            <Container fluid>
+                              <Card>
+                                <CardBody>
+                                  <Row>
+                                    <FormGroup>
+                                      <Col sm="3">
+                                        <CardText className="text-secondary">
+                                          <Label for="carName">
+                                            Automobile Name :
+                                          </Label>
+                                        </CardText>
+                                      </Col>
+                                      <Col sm="5">
+                                        <Input
+                                          name="carName"
+                                          id="carName"
+                                          type="Text"
+                                          placeholder="Type car name.."
+                                          onChange={this.handleChange}
+                                        />
+                                        <FormFeedback>
+                                          {errors.car}
+                                        </FormFeedback>
+                                      </Col>
+                                    </FormGroup>
+                                  </Row>
+                                  <hr />
+                                  <Row>
+                                    <FormGroup>
+                                      <Col sm="3">
+                                        <CardText className="text-secondary">
+                                        </CardText>
+                                      </Col>
+                                      <Col sm="5">
+                                        <Input
+                                          name="maker"
+                                          id="maker"
+                                          type="Text"
+                                          placeholder="Type maker name.."
+                                          onChange={this.handleChange}
+                                        />
+                                        <FormFeedback>
+                                          {errors.make}
+                                        </FormFeedback>
+                                      </Col>
+                                    </FormGroup>
+                                  </Row>
+                                  <hr />
+                                  <Row>
+                                    <FormGroup>
+                                      <Col sm="3">
+                                        <CardText className="text-secondary">
+                                          <Label for="description">
+                                            Jop/Issue description :
+                                          </Label>
+                                        </CardText>
+                                      </Col>
+                                      <Col sm="9">
+                                        <Input
+                                          name="description"
+                                          id="description"
+                                          type="textarea"
+                                          placeholder="Describe your issue.."
+                                          onChange={this.handleChange}
+                                        />
+                                        <FormFeedback>
+                                          {errors.description}
+                                        </FormFeedback>
+                                      </Col>
+                                    </FormGroup>
+                                  </Row>
+                                  <hr />
+                                  <Row>
+                                    <FormGroup>
+                                      <Col sm="3">
+                                        <CardText className="text-secondary">
+                                          <Label for="type">Jop Type :</Label>
+                                        </CardText>
+                                      </Col>
+                                      <Col sm="5">
+                                        <Input
+                                          name="type"
+                                          id="type"
+                                          type="textarea"
+                                          placeholder="Enter job type.."
+                                          onChange={this.handleChange}
+                                        />
+                                        <FormFeedback>
+                                          {errors.type}
+                                        </FormFeedback>
+                                      </Col>
+                                    </FormGroup>
+                                  </Row>
+                                </CardBody>
+                              </Card>
+                            </Container>
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button
+                              color="primary"
+                              onClick={e => {
+                                this.handleSubmit(e);
+                              }}
+                            >
+                              Sumbit Request
+                            </Button>
+                            <Button
+                              color="secondary"
+                              onClick={e => {
+                                this.toggle();
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                          </ModalFooter>
+                        </Modal>
+                      </Form>
+                      <Button
+                        color="link"
+                        style={{ position: 'absolute', right: 0 }}
+                        onClick={() => this.toggle()}
+                      >
+                        Create New Request
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
+        </Container>
+      </Page>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  postRequest,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(MyJopListings);
