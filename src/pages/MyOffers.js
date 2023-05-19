@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Page from '../components/Page';
-import {
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Form,
-  Input,
-  Label,
-  Row,
-  Spinner,
-} from 'reactstrap';
+import { Card, CardBody, Col, Container, Row, Spinner } from 'reactstrap';
 import MyOffersTable from '../components/MyOffersTable';
-import { MdPersonPin } from 'react-icons/md';
-import { RequestData } from '../demos/Mock';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { getUserOffers } from '../redux/actions/dataActions';
 import ReactPaginate from 'react-paginate';
+import PageSpinner from '../components/PageSpinner';
 
 class Offers extends React.Component {
   state = {
@@ -26,6 +15,7 @@ class Offers extends React.Component {
     pageCount: 0,
     itemOffset: 0,
     itemsPerPage: 6,
+    fakeLoad: true,
   };
 
   // Invoke when user click to request another page.
@@ -73,12 +63,18 @@ class Offers extends React.Component {
         items: nextProps.data.userOffers,
       });
     }
+    setTimeout(() => {
+      this.setState({
+        fakeLoad: false,
+      });
+    }, 1000);
   }
 
   render() {
     const {
       data: { userOffers, dataloading },
       UI: { loading },
+      history,
     } = this.props;
     return (
       <Page
@@ -91,24 +87,10 @@ class Offers extends React.Component {
             <CardBody>
               <Row>
                 <Col>
-                  {this.props.data.dataloding ? (
-                    <Spinner color="primary" className="paginate"></Spinner>
+                  {this.props.data.dataloding || this.state.fakeLoad ? (
+                    <PageSpinner color="primary" />
                   ) : this.state.items.length === 0 ? (
-                    <MyOffersTable
-                      headers={[
-                        'Description',
-                        'Amount',
-                        'Status',
-                        'Created At',
-                      ]}
-                      RequestData={this.state.currentItems}
-                    />
-                  ) : this.state.items[0] === 'Empty' ? (
-                    <h3>
-                      {' '}
-                      Sorry, There are no job requests matching your filter
-                      options!
-                    </h3>
+                    <h3>You have no offers to view!</h3>
                   ) : (
                     <MyOffersTable
                       headers={[

@@ -130,7 +130,7 @@ class Sidebar extends React.Component {
                 className="pr-2"
                 alt=""
               />
-              <span className="text-white">Car Lancer</span>
+              <span className="text-white">CarLancer</span>
             </SourceLink>
           </Navbar>
           <Nav vertical>

@@ -1,15 +1,6 @@
 import React from 'react';
 import Page from '../components/Page';
-import {
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Form,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 
 const CreatePublicJop = () => {
   return (

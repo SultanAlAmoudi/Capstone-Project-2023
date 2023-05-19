@@ -1,11 +1,7 @@
 import React from 'react';
 import {
-  Card,
-  CardBody,
   Col,
   Row,
-  CardText,
-  CardTitle,
   ListGroup,
   ListGroupItem,
   Media,
@@ -50,13 +46,14 @@ class OffersUiAccept extends React.Component {
 
   handleSubmit = (event, offerId) => {
     event.preventDefault();
-    this.props.acceptOffer(this.props.requestId, offerId);
+    this.props.acceptOffer(this.props.requestId, offerId, this.props.history);
   };
   render() {
     const {
       data: { offers, dataloading },
       requestId,
       hasAccepted,
+      history,
       UI: { errors, loading },
     } = this.props;
     return (

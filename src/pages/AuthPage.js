@@ -7,14 +7,14 @@ import { withRouter } from 'react-router';
 
 class AuthPage extends React.Component {
   componentDidMount() {
-    if (this.props.authenticated == true) {
+    if (this.props.authenticated === true) {
       alert('You are already logged in');
       this.props.history.push('/');
     }
   }
 
   handleAuthState = authState => {
-    if (authState === STATE_LOGIN) {
+    if (authState == STATE_LOGIN) {
       this.props.history.push('/login');
     } else {
       this.props.history.push('/signup');
@@ -26,7 +26,7 @@ class AuthPage extends React.Component {
   };
 
   render() {
-    const { authenticated, ...restProps } = this.props;
+    const { authenticated } = this.props;
     return (
       <Row
         style={{

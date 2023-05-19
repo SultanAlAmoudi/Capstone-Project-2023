@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Page from '../components/Page';
 import {
   Card,
@@ -13,7 +13,6 @@ import {
 } from 'reactstrap';
 import ListingTable from '../components/ListingTable';
 import { MdPersonPin } from 'react-icons/md';
-import { RequestData } from '../demos/Mock';
 import { withRouter } from 'react-router';
 import { CarData, jobList } from '../demos/makeAndCar';
 import { connect } from 'react-redux';
@@ -57,20 +56,30 @@ class PublicRequests extends React.Component {
   }
 
   handleRefresh(newList) {
-    let items = newList;
+    let items = newList.filter(
+      request =>
+        request.offerAccepted != true &&
+        request.userHandle != this.props.user.credentials.handle,
+    );
     const endOffset = this.state.itemOffset + this.state.itemsPerPage;
     console.log(`Loading items from ${this.state.itemOffset} to ${endOffset}`);
     this.setState({
       currentItems: items.slice(this.state.itemOffset, endOffset),
       pageCount: Math.ceil(items.length / this.state.itemsPerPage),
-      items: newList,
+      items: newList.filter(
+        request =>
+          request.offerAccepted != true &&
+          request.userHandle != this.props.user.credentials.handle,
+      ),
     });
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.state.currentItems.length == 0) {
       let items = nextProps.data.publicRequests.filter(
-        request => request.offerAccepted != true,
+        request =>
+          request.offerAccepted != true &&
+          request.userHandle != this.props.user.credentials.handle,
       );
       const endOffset = this.state.itemOffset + this.state.itemsPerPage;
       console.log(
@@ -80,7 +89,9 @@ class PublicRequests extends React.Component {
         currentItems: items.slice(this.state.itemOffset, endOffset),
         pageCount: Math.ceil(items.length / this.state.itemsPerPage),
         items: nextProps.data.publicRequests.filter(
-          request => request.offerAccepted != true,
+          request =>
+            request.offerAccepted != true &&
+            request.userHandle != this.props.user.credentials.handle,
         ),
       });
     }
@@ -126,7 +137,13 @@ class PublicRequests extends React.Component {
       });
     }
     // Create copy of item list
-    var updatedList = [...this.props.data.publicRequests];
+    var updatedList = [
+      ...this.props.data.publicRequests.filter(
+        request =>
+          request.offerAccepted != true &&
+          request.userHandle != this.props.user.credentials.handle,
+      ),
+    ];
     // Include all elements which includes the search query
     updatedList = updatedList.filter(request => {
       if (filterCar === '' || filterMake === '') {
@@ -151,7 +168,11 @@ class PublicRequests extends React.Component {
         updatedList.filter(request => request.offerAccepted != true),
       );
       this.setState({
-        items: updatedList.filter(request => request.offerAccepted != true),
+        items: updatedList.filter(
+          request =>
+            request.offerAccepted != true &&
+            request.userHandle != this.props.user.credentials.handle,
+        ),
       });
     }
     // Trigger render with updated values
@@ -159,6 +180,9 @@ class PublicRequests extends React.Component {
 
   render() {
     const {
+      user: {
+        credentials: { handle },
+      },
       data: { publicRequests, dataloading },
       UI: { loading },
     } = this.props;
@@ -316,6 +340,7 @@ class PublicRequests extends React.Component {
   }
 }
 const mapStateToProps = state => ({
+  user: state.user,
   data: state.data,
   UI: state.UI,
 });

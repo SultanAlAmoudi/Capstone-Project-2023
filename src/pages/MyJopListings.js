@@ -20,11 +20,8 @@ import {
   Spinner,
 } from 'reactstrap';
 import UserListings from '../components/UserListings';
-import { MdPersonPin } from 'react-icons/md';
-import { RequestData } from '../demos/Mock';
 import { connect } from 'react-redux';
 import { postRequest, getUserData } from '../redux/actions/dataActions';
-import { event } from 'react-ga';
 import { withRouter } from 'react-router';
 import { CarData, jobList } from '../demos/makeAndCar';
 import PageSpinner from 'components/PageSpinner';

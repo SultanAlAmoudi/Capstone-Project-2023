@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 /* import PropTypes from 'utils/propTypes'; */
 import {
   Table,
@@ -10,27 +10,18 @@ import {
   Row,
   Col,
   Container,
-  Label,
   Card,
   CardBody,
   CardText,
   /*   CardTitle, */
   CardHeader,
-  Spinner,
 } from 'reactstrap';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-import Avatar from 'components/Avatar';
 import OffersUiAccept from '../utils/OffersUiAccept';
 
-import withBadge from 'hocs/withBadge';
 import Typography from './Typography';
-
-const AvatarWithBadge = withBadge({
-  position: 'bottom-right',
-  color: 'danger',
-})(Avatar);
 
 class UserListings extends React.Component {
   state = {
@@ -86,14 +77,10 @@ class UserListings extends React.Component {
                 </td>
                 <td className="align-middle text-center">
                   {offerAccepted && (
-                    <Typography className="text-money">
-                      Offer Accepted
-                    </Typography>
+                    <h7 className="text-money">Offer Accepted</h7>
                   )}
                   {!offerAccepted && (
-                    <Typography className="text-secondary">
-                      Request Listed
-                    </Typography>
+                    <h7 className="text-secondary">Request Listed</h7>
                   )}
                 </td>
 

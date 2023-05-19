@@ -17,7 +17,7 @@ import { withRouter } from 'react-router';
 const Hero = ({ history }) => {
   const handleLogin = event => {
     event.preventDefault();
-    history.push('/login');
+    history.push('/signup');
   };
   return (
     <section className="section position-relative">
@@ -29,7 +29,7 @@ const Hero = ({ history }) => {
                 <Col lg={6}>
                   <div className="pr-lg-5">
                     <CardTitle className="text-uppercase text-primary font-weight-medium f-14 mb-4">
-                      Welcome to Car Lancer
+                      Welcome to CarLancer
                     </CardTitle>
                     <CardText>
                       <Typography
@@ -44,6 +44,7 @@ const Hero = ({ history }) => {
                       </Typography>
                       <Button
                         color="primary"
+                        outline
                         onClick={e => {
                           handleLogin(e);
                         }}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 /* import PropTypes from 'utils/propTypes'; */
 import {
   Table,
@@ -16,7 +16,6 @@ import {
   CardText,
   /*   CardTitle, */
   CardHeader,
-  Media,
   Form,
   FormGroup,
   Input,
@@ -30,16 +29,10 @@ import CurrencyInput from 'react-currency-input-field';
 import Avatar from 'components/Avatar';
 import OffersUi from '../utils/OffersUi';
 
-import withBadge from 'hocs/withBadge';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { makeOffer } from '../redux/actions/dataActions';
 import Typography from './Typography';
-
-const AvatarWithBadge = withBadge({
-  position: 'bottom-right',
-  color: 'danger',
-})(Avatar);
 
 class ListingTable extends React.Component {
   state = {

@@ -1,37 +1,11 @@
 import React from 'react';
 /* import PropTypes from 'utils/propTypes'; */
-import {
-  Table,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Row,
-  Col,
-  Container,
-  Label,
-  Card,
-  CardBody,
-  CardText,
-  /*   CardTitle, */
-  CardHeader,
-  Form,
-  FormGroup,
-  Input,
-  FormFeedback,
-  Spinner,
-} from 'reactstrap';
+import { Table } from 'reactstrap';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import CurrencyInput from 'react-currency-input-field';
-
-import Avatar from 'components/Avatar';
-import OffersUi from '../utils/OffersUi';
 
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { makeOffer } from '../redux/actions/dataActions';
 import Typography from './Typography';
 
 class MyOffersTable extends React.Component {
@@ -50,6 +24,7 @@ class MyOffersTable extends React.Component {
       staticContext,
       makeOffer,
       history,
+      dispatch,
       ...restProps
     } = this.props;
 
@@ -74,14 +49,10 @@ class MyOffersTable extends React.Component {
                 <td className="align-middle text-center">{offerAmount}</td>
                 <td className="align-middle text-center">
                   {offerAccepted && (
-                    <Typography className="text-money">
-                      Offer has been accepted
-                    </Typography>
+                    <h7 className="text-money">Offer has been accepted</h7>
                   )}
                   {!offerAccepted && (
-                    <Typography className="text-secondary">
-                      Waiting for response
-                    </Typography>
+                    <h7 className="text-secondary">Waiting for response</h7>
                   )}
                 </td>
                 <td className="align-middle text-center">

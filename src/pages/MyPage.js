@@ -99,336 +99,319 @@ class UserPage extends React.Component {
 
     return (
       <Page>
-        <Row>
-          <Col lg="4">
-            <Row>
-              <Col>
-                {!loading ? (
-                  <UserCard
-                    withButton
-                    title={handle}
-                    subtitle={email}
-                    date={dayjs(createdAt).format('YYYY/MM/DD')}
-                    avatar={imageUrl}
-                    avatarSize={150}
-                  />
-                ) : (
-                  <Spinner></Spinner>
-                )}
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Card className="mb-4">
-                  <CardBody>
-                    {!loading ? (
-                      <>
-                        <Row>
-                          <Col sm="3">
-                            <CardText>Mobile</CardText>
-                          </Col>
-                          <Col sm="9">
-                            <InputGroup>
-                              <Input
-                                name="mobile"
-                                id="mobile"
-                                placeholder={
-                                  mobile ? mobile : this.state.mobile
-                                }
-                                plaintext={!this.state.editmobile}
-                                disabled={
-                                  this.state.editmobile ? '' : 'disabled'
-                                }
-                                onChange={this.handleChange}
-                              />
-                              <InputGroupAddon addonType="append">
-                                <Button
-                                  id="mobile"
+        <Container>
+          <Row>
+            <Col lg="4">
+              <Row>
+                <Col>
+                  {!loading ? (
+                    <UserCard
+                      withButton
+                      title={handle}
+                      subtitle={email}
+                      date={dayjs(createdAt).format('YYYY/MM/DD')}
+                      avatar={imageUrl}
+                      avatarSize={150}
+                    />
+                  ) : (
+                    <Spinner></Spinner>
+                  )}
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card className="mb-4">
+                    <CardBody>
+                      {!loading ? (
+                        <>
+                          <Row>
+                            <Col sm="3">
+                              <CardText>Mobile</CardText>
+                            </Col>
+                            <Col sm="9">
+                              <InputGroup>
+                                <Input
                                   name="mobile"
-                                  color={
-                                    this.state.editmobile ? 'primary' : 'link'
+                                  id="mobile"
+                                  placeholder={
+                                    mobile ? mobile : this.state.mobile
                                   }
-                                  onClick={
-                                    !this.state.editmobile
-                                      ? e => {
-                                          this.handleEdit(e, 'mobile');
-                                        }
-                                      : e => {
-                                          this.handleSubmit(e);
-                                        }
+                                  plaintext={!this.state.editmobile}
+                                  disabled={
+                                    this.state.editmobile ? '' : 'disabled'
                                   }
-                                >
-                                  {!this.state.editmobile && (
-                                    <MdModeEdit title="Edit mobile number" />
-                                  )}
-                                  {this.state.editmobile && <>Submit</>}
-                                </Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col sm="3">
-                            <CardText>Skills</CardText>
-                          </Col>
-                          <Col sm="9">
-                            <InputGroup>
-                              <Input
-                                name="skills"
-                                id="skills"
-                                placeholder={
-                                  skills ? skills : this.state.skills
-                                }
-                                plaintext={!this.state.editskills}
-                                disabled={
-                                  this.state.editskills ? '' : 'disabled'
-                                }
-                                onChange={this.handleChange}
-                              />
-                              <InputGroupAddon addonType="append">
-                                <Button
-                                  id="skills"
+                                  onChange={this.handleChange}
+                                />
+                                <InputGroupAddon addonType="append">
+                                  <Button
+                                    id="mobile"
+                                    name="mobile"
+                                    color={
+                                      this.state.editmobile ? 'primary' : 'link'
+                                    }
+                                    onClick={
+                                      !this.state.editmobile
+                                        ? e => {
+                                            this.handleEdit(e, 'mobile');
+                                          }
+                                        : e => {
+                                            this.handleSubmit(e);
+                                          }
+                                    }
+                                  >
+                                    {!this.state.editmobile && (
+                                      <MdModeEdit title="Edit mobile number" />
+                                    )}
+                                    {this.state.editmobile && <>Submit</>}
+                                  </Button>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </Col>
+                          </Row>
+                          <hr />
+                          <Row>
+                            <Col sm="3">
+                              <CardText>Skills</CardText>
+                            </Col>
+                            <Col sm="9">
+                              <InputGroup>
+                                <Input
                                   name="skills"
-                                  color={
-                                    this.state.editskills ? 'primary' : 'link'
+                                  id="skills"
+                                  placeholder={
+                                    skills ? skills : this.state.skills
                                   }
-                                  onClick={
-                                    !this.state.editskills
-                                      ? e => {
-                                          this.handleEdit(e, 'skills');
-                                        }
-                                      : e => {
-                                          this.handleSubmit(e);
-                                        }
+                                  plaintext={!this.state.editskills}
+                                  disabled={
+                                    this.state.editskills ? '' : 'disabled'
                                   }
-                                >
-                                  {!this.state.editskills && (
-                                    <MdModeEdit title="Edit Skills" />
-                                  )}
-                                  {this.state.editskills && <>Submit</>}
-                                </Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col sm="3">
-                            <CardText>Location</CardText>
-                          </Col>
-                          <Col sm="9">
-                            <InputGroup>
-                              <Input
-                                name="location"
-                                id="location"
-                                placeholder={
-                                  location ? location : this.state.location
-                                }
-                                plaintext={!this.state.editlocation}
-                                disabled={
-                                  this.state.editlocation ? '' : 'disabled'
-                                }
-                                onChange={this.handleChange}
-                              />
-
-                              <InputGroupAddon addonType="append">
-                                <Button
-                                  id="location"
+                                  onChange={this.handleChange}
+                                />
+                                <InputGroupAddon addonType="append">
+                                  <Button
+                                    id="skills"
+                                    name="skills"
+                                    color={
+                                      this.state.editskills ? 'primary' : 'link'
+                                    }
+                                    onClick={
+                                      !this.state.editskills
+                                        ? e => {
+                                            this.handleEdit(e, 'skills');
+                                          }
+                                        : e => {
+                                            this.handleSubmit(e);
+                                          }
+                                    }
+                                  >
+                                    {!this.state.editskills && (
+                                      <MdModeEdit title="Edit Skills" />
+                                    )}
+                                    {this.state.editskills && <>Submit</>}
+                                  </Button>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </Col>
+                          </Row>
+                          <hr />
+                          <Row>
+                            <Col sm="3">
+                              <CardText>Location</CardText>
+                            </Col>
+                            <Col sm="9">
+                              <InputGroup>
+                                <Input
                                   name="location"
-                                  color={
-                                    this.state.editlocation ? 'primary' : 'link'
+                                  id="location"
+                                  placeholder={
+                                    location ? location : this.state.location
                                   }
-                                  onClick={
-                                    !this.state.editlocation
-                                      ? e => {
-                                          this.handleEdit(e, 'location');
-                                        }
-                                      : e => {
-                                          this.handleSubmit(e);
-                                        }
+                                  plaintext={!this.state.editlocation}
+                                  disabled={
+                                    this.state.editlocation ? '' : 'disabled'
                                   }
-                                >
-                                  {!this.state.editlocation && (
-                                    <MdModeEdit title="Edit this location" />
-                                  )}
-                                  {this.state.editlocation && <>Submit</>}
-                                </Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </Col>
-                        </Row>
-                      </>
-                    ) : (
-                      <>
-                        <Row>
-                          <Col sm="3">
-                            <CardText>Mobile</CardText>
-                          </Col>
-                          <Col sm="9">
-                            <CardText className="text-muted">
-                              {this.state.mobile}
-                            </CardText>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col sm="3">
-                            <CardText>Skills</CardText>
-                          </Col>
-                          <Col sm="9">
-                            <CardText className="text-muted">
-                              {this.state.skills}
-                            </CardText>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <Col sm="3">
-                            <CardText>Location</CardText>
-                          </Col>
-                          <Col sm="9">
-                            <CardText className="text-muted">
-                              {this.state.location}
-                            </CardText>
-                          </Col>
-                        </Row>
-                      </>
-                    )}
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg="8">
-            <Row>
-              <Col>
-                <Card>
-                  <CardBody>
-                    <CardTitle tag="h2">
-                      <InputGroup>
+                                  onChange={this.handleChange}
+                                />
+
+                                <InputGroupAddon addonType="append">
+                                  <Button
+                                    id="location"
+                                    name="location"
+                                    color={
+                                      this.state.editlocation
+                                        ? 'primary'
+                                        : 'link'
+                                    }
+                                    onClick={
+                                      !this.state.editlocation
+                                        ? e => {
+                                            this.handleEdit(e, 'location');
+                                          }
+                                        : e => {
+                                            this.handleSubmit(e);
+                                          }
+                                    }
+                                  >
+                                    {!this.state.editlocation && (
+                                      <MdModeEdit title="Edit this location" />
+                                    )}
+                                    {this.state.editlocation && <>Submit</>}
+                                  </Button>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </Col>
+                          </Row>
+                        </>
+                      ) : (
+                        <>
+                          <Row>
+                            <Col sm="3">
+                              <CardText>Mobile</CardText>
+                            </Col>
+                            <Col sm="9">
+                              <CardText className="text-muted">
+                                {this.state.mobile}
+                              </CardText>
+                            </Col>
+                          </Row>
+                          <hr />
+                          <Row>
+                            <Col sm="3">
+                              <CardText>Skills</CardText>
+                            </Col>
+                            <Col sm="9">
+                              <CardText className="text-muted">
+                                {this.state.skills}
+                              </CardText>
+                            </Col>
+                          </Row>
+                          <hr />
+                          <Row>
+                            <Col sm="3">
+                              <CardText>Location</CardText>
+                            </Col>
+                            <Col sm="9">
+                              <CardText className="text-muted">
+                                {this.state.location}
+                              </CardText>
+                            </Col>
+                          </Row>
+                        </>
+                      )}
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Col>
+            <Col lg="8">
+              <Row>
+                <Col>
+                  <Card>
+                    <CardBody>
+                      <CardTitle tag="h2">
+                        <InputGroup>
+                          <Input
+                            name="pageTitle"
+                            id="pageTitle"
+                            type="textarea"
+                            placeholder={
+                              pageTitle ? pageTitle : this.state.pageTitle
+                            }
+                            plaintext={!this.state.editpageTitle}
+                            disabled={
+                              this.state.editpageTitle ? '' : 'disabled'
+                            }
+                            onChange={this.handleChange}
+                          />
+
+                          <InputGroupAddon addonType="append">
+                            <Button
+                              id="pageTitle"
+                              name="pageTitle"
+                              color={
+                                this.state.editpageTitle ? 'primary' : 'link'
+                              }
+                              onClick={
+                                !this.state.editpageTitle
+                                  ? e => {
+                                      this.handleEdit(e, 'pageTitle');
+                                    }
+                                  : e => {
+                                      this.handleSubmit(e);
+                                    }
+                              }
+                            >
+                              {!this.state.editpageTitle && (
+                                <MdModeEdit title="Edit this page title" />
+                              )}
+                              {this.state.editpageTitle && <>Submit</>}
+                            </Button>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </CardTitle>
+                      {this.state.editpageDescription && (
                         <Input
-                          name="pageTitle"
-                          id="pageTitle"
                           type="textarea"
-                          placeholder={
-                            pageTitle ? pageTitle : this.state.pageTitle
+                          name="pageDescription"
+                          id="pageDescription"
+                          plaintext={!this.state.editpageDescription}
+                          disabled={
+                            this.state.editpageDescription ? '' : 'disabled'
                           }
-                          plaintext={!this.state.editpageTitle}
-                          disabled={this.state.editpageTitle ? '' : 'disabled'}
                           onChange={this.handleChange}
                         />
+                      )}
 
-                        <InputGroupAddon addonType="append">
-                          <Button
-                            id="pageTitle"
-                            name="pageTitle"
-                            color={
-                              this.state.editpageTitle ? 'primary' : 'link'
-                            }
-                            onClick={
-                              !this.state.editpageTitle
-                                ? e => {
-                                    this.handleEdit(e, 'pageTitle');
-                                  }
-                                : e => {
-                                    this.handleSubmit(e);
-                                  }
-                            }
-                          >
-                            {!this.state.editpageTitle && (
-                              <MdModeEdit title="Edit this page title" />
-                            )}
-                            {this.state.editpageTitle && <>Submit</>}
-                          </Button>
-                        </InputGroupAddon>
-                      </InputGroup>
-                    </CardTitle>
-
-                    <InputGroup>
-                      <Input
-                        type="textarea"
-                        name="pageDescription"
+                      {!this.state.editpageDescription &&
+                        (pageDescription ? (
+                          <h7>{pageDescription}</h7>
+                        ) : (
+                          <h7>{this.state.pageDescription}</h7>
+                        ))}
+                      <Button
                         id="pageDescription"
-                        placeholder={
-                          pageDescription
-                            ? pageDescription
-                            : this.state.pageDescription
+                        name="pageDescription"
+                        color={
+                          this.state.editpageDescription ? 'primary' : 'link'
                         }
-                        plaintext={!this.state.editpageDescription}
-                        disabled={
-                          this.state.editpageDescription ? '' : 'disabled'
+                        onClick={
+                          !this.state.editpageDescription
+                            ? e => {
+                                this.handleEdit(e, 'pageDescription');
+                              }
+                            : e => {
+                                this.handleSubmit(e);
+                              }
                         }
-                        onChange={this.handleChange}
-                      />
-
-                      <InputGroupAddon addonType="append">
-                        <Button
-                          id="pageDescription"
-                          name="pageDescription"
-                          color={
-                            this.state.editpageDescription ? 'primary' : 'link'
-                          }
-                          onClick={
-                            !this.state.editpageDescription
-                              ? e => {
-                                  this.handleEdit(e, 'pageDescription');
-                                }
-                              : e => {
-                                  this.handleSubmit(e);
-                                }
-                          }
-                        >
-                          {!this.state.editpageDescription && (
-                            <MdModeEdit title="Edit this page description" />
-                          )}
-                          {this.state.editpageDescription && <>Submit</>}
-                        </Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Card>
-                  <CardBody>
-                    <CardTitle tag="h2">Reviews</CardTitle>
-                    <ListGroup flush>
-                      <ListGroupItem>
-                        <Media className="m-2">
-                          <Media left className="mr-2">
-                            <AvatarWithBadge />
+                      >
+                        {!this.state.editpageDescription && (
+                          <MdModeEdit title="Edit this page description" />
+                        )}
+                        {this.state.editpageDescription && <>Submit</>}
+                      </Button>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card>
+                    <CardBody>
+                      <CardTitle tag="h2">Reviews</CardTitle>
+                      <ListGroup flush>
+                        <ListGroupItem>
+                          <Media tag="h3" className="m-2">
+                            Not implemented yet
                           </Media>
-                          <Media body>
-                            <Media heading tag="h6" className="m-0">
-                              The best mechannic
-                            </Media>
-                            <p className="text-muted m-0">
-                              <small>3 hour ago</small>
-                            </p>
-                          </Media>
-                          <Media right className="align-self-center">
-                            <StarRatings
-                              rating={4.5}
-                              starRatedColor="yellow"
-                              starEmptyColor="rgb(79, 62, 120)"
-                              numberOfStars={5}
-                              name="rating"
-                              starDimension="25px"
-                              starSpacing="0px"
-                            />
-                          </Media>
-                        </Media>
-                      </ListGroupItem>
-                    </ListGroup>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+                        </ListGroupItem>
+                      </ListGroup>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       </Page>
     );
   }

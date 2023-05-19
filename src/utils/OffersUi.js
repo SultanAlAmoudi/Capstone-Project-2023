@@ -1,11 +1,7 @@
 import React from 'react';
 import {
-  Card,
-  CardBody,
   Col,
   Row,
-  CardText,
-  CardTitle,
   ListGroup,
   ListGroupItem,
   Media,
